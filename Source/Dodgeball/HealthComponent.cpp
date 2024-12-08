@@ -2,6 +2,8 @@
 
 
 #include "HealthComponent.h"
+#include "HealthInterface.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -11,6 +13,20 @@ UHealthComponent::UHealthComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+void UHealthComponent::LoseHealth(float Amout)
+{
+	Health -= Amout;
+
+	if (Health <= 0.0f)
+	{
+		Health = 0.0f;
+		if (GetOwner()->Implements<UHealthInterface>())
+		{
+			IHealthInterface::Execute_OnDeath(GetOwner());
+		}
+	}
 }
 
 

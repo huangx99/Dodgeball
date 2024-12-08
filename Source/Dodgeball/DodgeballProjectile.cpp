@@ -4,6 +4,8 @@
 #include "DodgeballProjectile.h"
 #include "DodgeballCharacter.h"
 
+#include "HealthComponent.h"
+
 // Sets default values
 ADodgeballProjectile::ADodgeballProjectile()
 {
@@ -30,9 +32,16 @@ ADodgeballProjectile::ADodgeballProjectile()
 
 void ADodgeballProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* otherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (Cast<ADodgeballCharacter>(otherActor) != nullptr)
+	ADodgeballCharacter* Player = Cast<ADodgeballCharacter>(otherActor);
+	if (Player != nullptr)
 	{
 		Destroy();
+
+		UHealthComponent* HealthComponent = Player->FindComponentByClass<UHealthComponent>();
+		if (HealthComponent != nullptr)
+		{
+			HealthComponent->LoseHealth(Damage);
+		}
 	}
 }
 

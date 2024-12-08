@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -62,6 +63,13 @@ ADodgeballCharacter::ADodgeballCharacter()
 	CameraBoom->bInheritPitch = false;
 	CameraBoom->bInheritRoll = false;
 	CameraBoom->bInheritYaw = false;
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+}
+
+void ADodgeballCharacter::OnDeath_Implementation()
+{
+	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
 }
 
 void ADodgeballCharacter::BeginPlay()

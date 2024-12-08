@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "HealthComponent.h"
+#include "HealthInterface.h"
 #include "DodgeballCharacter.generated.h"
 
 class USpringArmComponent;
@@ -16,7 +18,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ADodgeballCharacter : public ACharacter
+class ADodgeballCharacter : public ACharacter, public IHealthInterface
 {
 	GENERATED_BODY()
 
@@ -47,7 +49,7 @@ class ADodgeballCharacter : public ACharacter
 public:
 	ADodgeballCharacter();
 	
-
+	virtual void OnDeath_Implementation() override;
 protected:
 
 	/** Called for movement input */
@@ -56,7 +58,8 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 			
-
+private:
+	class UHealthComponent* HealthComponent;
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

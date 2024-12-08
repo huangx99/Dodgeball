@@ -19,6 +19,9 @@ class DODGEBALL_API ADodgeballProjectile : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dodgeball", meta=(AllowPrivateAccess="true"))
 	class UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(EditAnywhere, Category = "DamageNum", meta = (AllowPrivateAccess = "true"))
+	float Damage = 34.0f;
+
 public:
 	// Sets default values for this character's properties
 	ADodgeballProjectile();
